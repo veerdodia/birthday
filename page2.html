@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For You ❤️</title>
+
+<style>
+
+body{
+    margin:0;
+    background:black;
+    overflow:hidden;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* Canvas full screen */
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+/* Text container */
+
+.container{
+    position:absolute;
+    width:100%;
+    top:50%;
+    transform:translateY(-50%);
+    text-align:center;
+    color:white;
+    opacity:0;
+    filter:blur(10px);
+    transition:2s;
+}
+
+/* Final visible */
+
+.container.show{
+    opacity:1;
+    filter:blur(0);
+}
+
+/* Glow text */
+
+#message{
+    font-size:30px;
+    width:700px;
+    margin:auto;
+    text-shadow:0 0 10px rgba(255,77,109,0.8),
+                0 0 20px rgba(255,77,109,0.6);
+}
+
+/* Button */
+
+button{
+    margin-top:30px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    opacity:0;
+    transition:1s;
+}
+
+button.show{
+    opacity:1;
+}
+
+/* Hearts */
+
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:12px;
+    opacity:0.6;
+    animation:floatUp 5s linear forwards;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="container" id="container">
+    <div id="message">
+        You came into my life quietly…  
+        but changed everything beautifully.  
+        And today, I just want to remind you…  
+        how special you truly are ❤️
+    </div>
+
+    <a href="page3.html">
+        <button id="btn">Next ➜</button>
+    </a>
+</div>
+
+<!-- Music -->
+<audio id="music" src="music.mp3" loop></audio>
+
+<script>
+
+/* Canvas stars */
+
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for(let i=0;i<150;i++){
+    stars.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2
+    });
+}
+
+function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="white";
+
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fill();
+    });
+}
+
+setInterval(drawStars,50);
+
+/* Reveal text */
+
+setTimeout(()=>{
+    document.getElementById("container").classList.add("show");
+    document.getElementById("btn").classList.add("show");
+},3000);
+
+/* Music fade */
+
+let music = document.getElementById("music");
+
+music.volume = 0;
+music.play();
+
+let vol = 0;
+
+let fade = setInterval(()=>{
+    if(vol < 1){
+        vol += 0.02;
+        music.volume = vol;
+    } else {
+        clearInterval(fade);
+    }
+},200);
+
+/* Hearts */
+
+setInterval(()=>{
+    let h = document.createElement("div");
+    h.innerHTML="❤";
+    h.classList.add("heart");
+
+    h.style.left=Math.random()*100+"vw";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),5000);
+
+},500);
+
+</script>
+
+</body>
+</html>

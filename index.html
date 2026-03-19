@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For My Sweetheart</title>
+
+<style>
+
+body{
+    margin:0;
+    background:black;
+    color:white;
+    font-family:Arial;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+}
+
+.container{
+    z-index:10;
+}
+
+h1{
+    color:#ff4d6d;
+    font-size:40px;
+}
+
+#text{
+    font-size:22px;
+    width:500px;
+    margin:auto;
+    min-height:120px;
+}
+
+button{
+    margin-top:25px;
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    background:#ff1e4d;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff4d6d;
+}
+
+/* Hearts */
+
+.heart{
+    position:absolute;
+    color:red;
+    font-size:20px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    0%{
+        transform:translateY(-10vh);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Hey My Sweetheart ❤️</h1>
+
+<p id="text"></p>
+
+<a href="page2.html">
+<button>Click Here My Little Birthday Girl 🎂</button>
+</a>
+
+</div>
+
+<!-- Background Music -->
+<audio autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* Typing Animation */
+
+const message = "Before your birthday begins, I want you to know something... You are one of the most beautiful parts of my life. Your smile makes my day better, and your presence makes everything feel special. So today, I made a little surprise just for you.";
+
+let i = 0;
+
+function type(){
+    if(i < message.length){
+        document.getElementById("text").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(type,40);
+    }
+}
+
+type();
+
+/* Heart Shower */
+
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤";
+
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(Math.random()*3+2)+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },5000);
+}
+
+setInterval(createHeart,200);
+
+</script>
+
+</body>
+</html>

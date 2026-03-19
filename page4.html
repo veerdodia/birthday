@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Happy Birthday ❤️</title>
+
+<style>
+
+body{
+    margin:0;
+    background:black;
+    overflow:hidden;
+    font-family:'Segoe UI', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+    text-align:center;
+}
+
+/* Glow background */
+
+.bg{
+    position:absolute;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle, rgba(255,77,109,0.2), transparent 60%);
+    filter: blur(100px);
+    animation:move 10s infinite alternate;
+}
+
+@keyframes move{
+    from{transform:translate(-10%,-10%);}
+    to{transform:translate(10%,10%);}
+}
+
+/* Message */
+
+.container{
+    z-index:2;
+    opacity:0;
+    transform:translateY(20px);
+    transition:2s;
+}
+
+.container.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+h1{
+    font-size:42px;
+    color:#ff4d6d;
+    text-shadow:0 0 20px rgba(255,77,109,0.8);
+}
+
+p{
+    font-size:18px;
+    max-width:600px;
+    margin:auto;
+    margin-top:20px;
+}
+
+/* Button */
+
+button{
+    margin-top:30px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+/* Canvas */
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<canvas id="canvas"></canvas>
+
+<div class="container" id="content">
+    <h1>🎉 Happy Birthday ❤️ 🎉</h1>
+
+    <p>
+        I may not always say it perfectly…  
+        but you mean more to me than you realize.  
+        You make my world better just by being in it.  
+        And today, I just want you to feel  
+        how special you truly are 💖
+    </p>
+
+    <button onclick="restart()">Start Again ↺</button>
+</div>
+
+<!-- Music -->
+<audio id="music" src="final.mp3" loop></audio>
+
+<script>
+
+/* Canvas */
+
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+/* Confetti + Fireworks */
+
+let particles = [];
+
+function createExplosion(x,y){
+
+    for(let i=0;i<120;i++){
+        particles.push({
+            x:x,
+            y:y,
+            speedX:(Math.random()-0.5)*8,
+            speedY:(Math.random()-0.5)*8,
+            size:Math.random()*4,
+            life:100
+        });
+    }
+}
+
+/* Initial burst */
+
+createExplosion(canvas.width/2, canvas.height/2);
+
+/* Animation */
+
+function animate(){
+
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#ff4d6d";
+
+    particles.forEach((p,index)=>{
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.speedY += 0.05;
+        p.life--;
+
+        ctx.fillRect(p.x,p.y,p.size,p.size);
+
+        if(p.life<=0){
+            particles.splice(index,1);
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+/* Random fireworks */
+
+setInterval(()=>{
+    createExplosion(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height/2
+    );
+},1500);
+
+/* Show message */
+
+setTimeout(()=>{
+    document.getElementById("content").classList.add("show");
+},2000);
+
+/* Music fade */
+
+let music = document.getElementById("music");
+music.volume = 0;
+music.play();
+
+let vol = 0;
+
+let fade = setInterval(()=>{
+    if(vol < 1){
+        vol += 0.02;
+        music.volume = vol;
+    } else {
+        clearInterval(fade);
+    }
+},200);
+
+/* Restart */
+
+function restart(){
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

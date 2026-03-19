@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memories ❤️</title>
+
+<style>
+
+body{
+    margin:0;
+    background:black;
+    font-family:'Segoe UI', sans-serif;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* Title */
+
+h1{
+    text-align:center;
+    margin-top:40px;
+    font-size:36px;
+    color:#ff4d6d;
+}
+
+/* Gallery */
+
+.gallery{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap:30px;
+    padding:40px;
+}
+
+/* Card */
+
+.card{
+    background:#111;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(255,77,109,0.15);
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+/* Image */
+
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+/* Caption */
+
+.caption{
+    padding:15px;
+    font-size:14px;
+    color:#ddd;
+}
+
+/* Button */
+
+button{
+    display:block;
+    margin:30px auto;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+/* Floating hearts */
+
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:14px;
+    opacity:0.5;
+    animation:floatUp 6s linear forwards;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* FULLSCREEN VIEW */
+
+.viewer{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+    backdrop-filter:blur(10px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s;
+}
+
+.viewer.active{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* Image zoom */
+
+.viewer img{
+    max-width:80%;
+    max-height:70%;
+    border-radius:15px;
+    box-shadow:0 0 40px rgba(255,77,109,0.4);
+    animation:zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn{
+    from{transform:scale(0.7);}
+    to{transform:scale(1);}
+}
+
+/* Caption inside viewer */
+
+.viewer p{
+    margin-top:15px;
+    font-size:16px;
+    color:#ddd;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Our Beautiful Memories ❤️</h1>
+
+<div class="gallery">
+
+    <div class="card" onclick="openViewer(this)">
+        <img src="img1.jpg">
+        <div class="caption">This moment meant a lot to me ❤️</div>
+    </div>
+
+    <div class="card" onclick="openViewer(this)">
+        <img src="img2.jpg">
+        <div class="caption">Your smile here… I can’t explain it 🥺</div>
+    </div>
+
+    <div class="card" onclick="openViewer(this)">
+        <img src="img3.jpg">
+        <div class="caption">One of my favorite memories ✨</div>
+    </div>
+
+    <div class="card" onclick="openViewer(this)">
+        <img src="img4.jpg">
+        <div class="caption">You make everything better 💫</div>
+    </div>
+
+</div>
+
+<a href="page4.html">
+    <button>Final Surprise 🎁</button>
+</a>
+
+<!-- FULLSCREEN VIEWER -->
+<div class="viewer" id="viewer" onclick="closeViewer()">
+    <img id="viewerImg">
+    <p id="viewerText"></p>
+</div>
+
+<script>
+
+/* OPEN VIEW */
+
+function openViewer(card){
+
+    let img = card.querySelector("img").src;
+    let text = card.querySelector(".caption").innerText;
+
+    document.getElementById("viewerImg").src = img;
+    document.getElementById("viewerText").innerText = text;
+
+    document.getElementById("viewer").classList.add("active");
+}
+
+/* CLOSE VIEW */
+
+function closeViewer(){
+    document.getElementById("viewer").classList.remove("active");
+}
+
+/* Floating hearts */
+
+setInterval(()=>{
+
+    let h = document.createElement("div");
+    h.innerHTML="❤";
+    h.classList.add("heart");
+
+    h.style.left = Math.random()*100+"vw";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),6000);
+
+},500);
+
+</script>
+
+</body>
+</html>
